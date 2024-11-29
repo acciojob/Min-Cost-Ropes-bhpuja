@@ -1,16 +1,52 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
 <head>
-	<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Min Cost Ropes</title>
+    <script>
+        function mincost(arr) {
+            if (arr.length <= 1) return 0;
+
+            // Min-heap using priority queue logic
+            arr.sort((a, b) => a - b);
+
+            let cost = 0;
+
+            while (arr.length > 1) {
+                // Combine the two smallest ropes
+                let first = arr.shift();
+                let second = arr.shift();
+
+                let newRope = first + second;
+                cost += newRope;
+
+                // Insert the new rope back and keep the heap sorted
+                arr.push(newRope);
+                arr.sort((a, b) => a - b);
+            }
+
+            return cost;
+        }
+
+        function calculateMinCost() {
+            const input = document.getElementById("ropeLengths").value;
+            const arr = input.split(',').map(Number);
+
+            if (arr.some(isNaN)) {
+                alert("Please enter valid comma-separated integers.");
+                return;
+            }
+
+            const result = mincost(arr);
+            alert(`The minimum cost to connect the ropes is: ${result}`);
+        }
+    </script>
 </head>
-
 <body>
-	<!-- the entire body must be written by student -->
-    <script type="text/javascript" src="./script.js">
-</script>
-
+    <h1>Min Cost to Connect Ropes</h1>
+    <label for="ropeLengths">Enter rope lengths (comma-separated):</label>
+    <input type="text" id="ropeLengths" placeholder="e.g., 4,3,2,6">
+    <button onclick="calculateMinCost()">Calculate Minimum Cost</button>
 </body>
-
 </html>
